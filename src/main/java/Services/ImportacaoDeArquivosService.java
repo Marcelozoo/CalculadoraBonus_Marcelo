@@ -17,7 +17,7 @@ public class ImportacaoDeArquivosService {
     
     public ArrayList<Integer> importarDados(File Arquivo,int result, JFileChooser fileChooser){
         
-        ArrayList<Integer> listaDados = new ArrayList();
+       
     
         
         for(IImportarDados arquivo : importarArquivos){
@@ -26,7 +26,7 @@ public class ImportacaoDeArquivosService {
             }
         }
         
-        return listaDados;
+        return new ArrayList();
                 
     }
 }
