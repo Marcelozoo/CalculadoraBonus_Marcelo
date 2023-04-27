@@ -1,6 +1,7 @@
 package Presenter;
 
 import Model.CsvDados;
+import Services.ImportacaoDeArquivosService;
 import View.CalculadoraEstatisticaView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,11 +13,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class CalculadoraEstatisticaPresenter {
 
-    final private CalculadoraEstatisticaView tela = new CalculadoraEstatisticaView();
+    private CalculadoraEstatisticaView tela = new CalculadoraEstatisticaView();
     private CsvDados dadosArquivo;
     private boolean status = false;
     private boolean statusCalculo = false;
-    private boolean primeiro = true;
+    private ImportacaoDeArquivosService importarArquivoService;
     private ArrayList<Integer> dados;
     private ArrayList<Integer> dadosCalculos;
     private ResultadosCalculosPresenter resultadosCalculos;
@@ -25,6 +26,7 @@ public class CalculadoraEstatisticaPresenter {
 
         this.dadosArquivo = new CsvDados();
         this.resultadosCalculos = new ResultadosCalculosPresenter();
+        this.importarArquivoService = new ImportacaoDeArquivosService();
 
         importacaoDados();
         calcularEstatisticas();
@@ -39,13 +41,12 @@ public class CalculadoraEstatisticaPresenter {
 
                 JFileChooser fileChooser = new JFileChooser();
                 int result = fileChooser.showOpenDialog(null);
-                boolean valor = dadosArquivo.verificaArquivo(fileChooser, result);
-                if (valor) {
-                    dados = dadosArquivo.importarDados(fileChooser.getSelectedFile());
-                    preencheTabela(dados);
-                } else if (fileChooser.getSelectedFile() != null && valor == false) {
-                    JOptionPane.showMessageDialog(null, "Arquivo inválido. Por favor, selecione um arquivo CSV.");
 
+                dados = importarArquivoService.importarDados(fileChooser.getSelectedFile(), result, fileChooser);
+                if (!dados.isEmpty()) {
+                    preencheTabela(dados);
+                }else if(dados.isEmpty() && fileChooser.getSelectedFile() != null){
+                    JOptionPane.showMessageDialog(null, "Arquivo inválido. Por favor, selecione um arquivo CSV.");
                 }
             }
         });
@@ -99,9 +100,9 @@ public class CalculadoraEstatisticaPresenter {
                 } else {
 
                     ArrayList<Double> doubleList = new ArrayList<>();
-                    
+
                     for (Integer intValue : dadosCalculos) {
-                        double doubleValue = intValue.doubleValue(); 
+                        double doubleValue = intValue.doubleValue();
                         doubleList.add(doubleValue);
                     }
                     resultadosCalculos.visualizarCalculos(doubleList);
