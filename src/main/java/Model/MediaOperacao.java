@@ -1,8 +1,6 @@
 
 package Model;
 
-import Services.IOperacao;
-
 
 public class MediaOperacao implements IOperacao {
     

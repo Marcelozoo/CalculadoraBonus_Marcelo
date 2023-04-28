@@ -1,7 +1,5 @@
 package Model;
 
-import Services.IOperacao;
-
 public class QuantidadeOperacao implements IOperacao {
 
     @Override

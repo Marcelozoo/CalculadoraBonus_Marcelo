@@ -1,6 +1,5 @@
 package Model;
 
-import Services.IImportarDados;
 import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;

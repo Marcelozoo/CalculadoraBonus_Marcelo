@@ -1,7 +1,5 @@
 package Model;
 
-import Services.IOperacao;
-
 
 
 public class DesvioPadraoOperacao implements IOperacao {

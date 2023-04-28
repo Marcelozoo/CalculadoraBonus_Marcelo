@@ -1,6 +1,5 @@
 package Presenter;
 
-import Model.CsvDados;
 import Services.ImportacaoDeArquivosService;
 import View.CalculadoraEstatisticaView;
 import java.awt.event.ActionEvent;
@@ -14,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
 public class CalculadoraEstatisticaPresenter {
 
     private CalculadoraEstatisticaView tela = new CalculadoraEstatisticaView();
-    private CsvDados dadosArquivo;
     private boolean status = false;
     private boolean statusCalculo = false;
     private ImportacaoDeArquivosService importarArquivoService;
@@ -24,7 +22,6 @@ public class CalculadoraEstatisticaPresenter {
 
     public CalculadoraEstatisticaPresenter() {
 
-        this.dadosArquivo = new CsvDados();
         this.resultadosCalculos = new ResultadosCalculosPresenter();
         this.importarArquivoService = new ImportacaoDeArquivosService();
 

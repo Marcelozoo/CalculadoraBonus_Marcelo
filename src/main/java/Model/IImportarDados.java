@@ -1,10 +1,9 @@
 
-package Services;
+package Model;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JTable;
+
 
 
 public interface IImportarDados {
