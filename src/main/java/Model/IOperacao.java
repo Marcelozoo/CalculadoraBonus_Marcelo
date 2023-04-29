@@ -1,5 +1,5 @@
 package Model;
-import Model.DadosPeso;
+
 
 public interface IOperacao {
     

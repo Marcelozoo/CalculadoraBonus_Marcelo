@@ -1,17 +1,19 @@
-
 package Model;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
+
 
 public class Resultado {
-    
+
     private String nome;
     private Double valor;
-    private LocalDate data;
-    
+    private LocalDateTime data;
+
     public Resultado(String nome, double valor) {
         this.nome = nome;
         this.valor = valor;
-        this.data = LocalDate.now();
+        this.data = LocalDateTime.now();
+
     }
 
     public String getNome() {
@@ -22,13 +24,13 @@ public class Resultado {
         return valor;
     }
 
-    public LocalDate getData() {
+    public LocalDateTime getData() {
         return data;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return "Nome: " + this.nome + ", Valor: " + this.valor;
     }
-     
+
 }
