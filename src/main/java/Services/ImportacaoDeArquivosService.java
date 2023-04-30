@@ -18,10 +18,8 @@ public class ImportacaoDeArquivosService {
         importarArquivos.add(new TxtDados());
     }
     
-    public ArrayList<Integer> importarDados(File Arquivo,int result, JFileChooser fileChooser){
+    public ArrayList<Double> importarDados(File Arquivo,int result, JFileChooser fileChooser){
         
-       
-    
         
         for(IImportarDados arquivo : importarArquivos){
             if(arquivo.verificaArquivo(fileChooser, result)){

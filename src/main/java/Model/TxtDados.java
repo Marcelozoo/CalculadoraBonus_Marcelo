@@ -9,14 +9,14 @@ import javax.swing.JFileChooser;
 public class TxtDados implements IImportarDados {
 
     @Override
-    public ArrayList<Integer> importarDados(File arquivo) {
+    public ArrayList<Double> importarDados(File arquivo) {
 
-        ArrayList<Integer> dadosArquivo = new ArrayList();
+        ArrayList<Double> dadosArquivo = new ArrayList();
 
         try (Scanner scanner = new Scanner(arquivo)) {
             while (scanner.hasNextLine()) {
                 String linha = scanner.nextLine();
-                int numero = Integer.parseInt(linha);
+                double numero = Double.parseDouble(linha);
                 dadosArquivo.add(numero);
             }
             scanner.close();

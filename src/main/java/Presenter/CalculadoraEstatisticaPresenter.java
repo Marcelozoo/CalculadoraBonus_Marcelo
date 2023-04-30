@@ -15,7 +15,7 @@ public class CalculadoraEstatisticaPresenter {
     final private CalculadoraEstatisticaView tela = new CalculadoraEstatisticaView();
     final private ImportacaoDeArquivosService importarArquivoService;
     final private ResultadosCalculosPresenter resultadosCalculos;
-    private ArrayList<Integer> dados;
+    private ArrayList<Double> dados;
     private boolean statusImportacao = false;
     private boolean statusCalculo = false;
     
@@ -49,7 +49,7 @@ public class CalculadoraEstatisticaPresenter {
         });
     }
 
-    private void preencheTabela(ArrayList<Integer> dados) {
+    private void preencheTabela(ArrayList<Double> dados) {
 
         DefaultTableModel model = (DefaultTableModel) tela.getJTable1().getModel();
         model.setRowCount(0);
@@ -94,14 +94,7 @@ public class CalculadoraEstatisticaPresenter {
                     JOptionPane.showMessageDialog(null, "Nenhum calculo foi realizado!");
 
                 } else {
-
-                    ArrayList<Double> doubleList = new ArrayList<>();
-
-                    for (Integer intValue : dados) {
-                        double doubleValue = intValue.doubleValue();
-                        doubleList.add(doubleValue);
-                    }
-                    resultadosCalculos.visualizarCalculos(doubleList);
+                    resultadosCalculos.visualizarCalculos(dados);
 
                 }
 

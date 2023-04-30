@@ -35,15 +35,12 @@ public class ResultadosCalculosPresenter {
 
     }
 
-    public void realizarCalculos(ArrayList<Integer> dados) {
-        ArrayList<Double> dadosNovos = new ArrayList();
+    public void realizarCalculos(ArrayList<Double> dados) {
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy  HH:mm:ss");
 
-        for (int i = 0; i < dados.size(); i++) {
-            dadosNovos.add((double) dados.get(i));
-        }
 
-        this.peso = new DadosPeso(dadosNovos);
+        this.peso = new DadosPeso(dados);
         this.calculadoraService.calcular(this.peso);
 
         resultadosNovos = this.peso.getResultados();
@@ -53,7 +50,7 @@ public class ResultadosCalculosPresenter {
         this.datasTotais.add(dataFormatada.format(formatter));
 
         armazenaResultados(peso);
-        visualizarCalculos(dadosNovos);
+        visualizarCalculos(dados);
         atualizarTabela();
 
     }
