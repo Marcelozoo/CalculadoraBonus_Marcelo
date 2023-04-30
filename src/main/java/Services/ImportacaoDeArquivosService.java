@@ -2,6 +2,7 @@ package Services;
 
 import Model.IImportarDados;
 import Model.CsvDados;
+import Model.TxtDados;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
@@ -14,6 +15,7 @@ public class ImportacaoDeArquivosService {
         
         importarArquivos = new ArrayList();
         importarArquivos.add(new CsvDados());
+        importarArquivos.add(new TxtDados());
     }
     
     public ArrayList<Integer> importarDados(File Arquivo,int result, JFileChooser fileChooser){

@@ -43,7 +43,7 @@ public class CalculadoraEstatisticaPresenter {
                 if (!dados.isEmpty()) {
                     preencheTabela(dados);
                 }else if(dados.isEmpty() && fileChooser.getSelectedFile() != null){
-                    JOptionPane.showMessageDialog(null, "Arquivo inválido. Por favor, selecione um arquivo CSV.");
+                    JOptionPane.showMessageDialog(null, "Arquivo inválido. Por favor, selecione um arquivo CSV ou TXT.");
                 }
             }
         });
