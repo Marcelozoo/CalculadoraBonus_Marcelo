@@ -12,13 +12,13 @@ import javax.swing.table.DefaultTableModel;
 
 public class CalculadoraEstatisticaPresenter {
 
-    private CalculadoraEstatisticaView tela = new CalculadoraEstatisticaView();
-    private boolean status = false;
-    private boolean statusCalculo = false;
-    private ImportacaoDeArquivosService importarArquivoService;
+    final private CalculadoraEstatisticaView tela = new CalculadoraEstatisticaView();
+    final private ImportacaoDeArquivosService importarArquivoService;
+    final private ResultadosCalculosPresenter resultadosCalculos;
     private ArrayList<Integer> dados;
-    private ArrayList<Integer> dadosCalculos;
-    private ResultadosCalculosPresenter resultadosCalculos;
+    private boolean statusImportacao = false;
+    private boolean statusCalculo = false;
+    
 
     public CalculadoraEstatisticaPresenter() {
 
@@ -53,16 +53,15 @@ public class CalculadoraEstatisticaPresenter {
 
         DefaultTableModel model = (DefaultTableModel) tela.getJTable1().getModel();
         model.setRowCount(0);
-        this.dadosCalculos = new ArrayList();
+     
 
         for (int i = 0; i < dados.size(); i++) {
-            this.dadosCalculos.add(dados.get(i));
             model.addRow(new Object[]{dados.get(i)});
         }
 
         JLabel label = tela.getjLabel1();
         label.setText("Quantidade de dados: " + dados.size());
-        this.status = true;
+        this.statusImportacao = true;
 
     }
 
@@ -73,11 +72,11 @@ public class CalculadoraEstatisticaPresenter {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (!status) {
+                if (!statusImportacao) {
                     JOptionPane.showMessageDialog(null, "Nenhum arquivo foi importado!");
 
                 } else {
-                    resultadosCalculos.realizarCalculos(dadosCalculos);
+                    resultadosCalculos.realizarCalculos(dados);
                     statusCalculo = true;
 
                 }
@@ -98,7 +97,7 @@ public class CalculadoraEstatisticaPresenter {
 
                     ArrayList<Double> doubleList = new ArrayList<>();
 
-                    for (Integer intValue : dadosCalculos) {
+                    for (Integer intValue : dados) {
                         double doubleValue = intValue.doubleValue();
                         doubleList.add(doubleValue);
                     }
