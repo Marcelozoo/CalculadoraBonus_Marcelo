@@ -1,8 +1,8 @@
 package Services;
 
 import models.interfaces.IImportarDados;
-import Model.CsvDados;
-import Model.TxtDados;
+import models.CsvDados;
+import models.TxtDados;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;

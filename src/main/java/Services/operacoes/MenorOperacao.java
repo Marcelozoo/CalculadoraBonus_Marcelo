@@ -1,7 +1,7 @@
+package services.operacoes;
 
-package Model;
-
-
+import models.DadosPeso;
+import models.Resultado;
 import models.interfaces.IOperacao;
 import java.util.Collections;
 

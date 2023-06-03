@@ -1,5 +1,7 @@
-package Model;
+package services.operacoes;
 
+import models.DadosPeso;
+import models.Resultado;
 import models.interfaces.IOperacao;
 
 

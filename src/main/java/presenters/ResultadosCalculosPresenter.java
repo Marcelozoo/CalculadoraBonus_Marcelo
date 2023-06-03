@@ -1,9 +1,9 @@
 package presenters;
 
-import Model.DadosPeso;
-import Model.Resultado;
+import models.DadosPeso;
+import models.Resultado;
 import View.ResultadoCalculosView;
-import Services.CalculadoraEstatisticaService;
+import services.CalculadoraEstatisticaService;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;

@@ -1,4 +1,4 @@
-package Model;
+package models;
 
 import models.interfaces.IImportarDados;
 import java.io.File;

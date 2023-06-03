@@ -1,12 +1,10 @@
-
-package Services;
-
-   
+package services;
 
 
+import models.DadosPeso;
 import models.interfaces.IOperacao;
-import Model.*;
 import java.util.ArrayList;
+import services.operacoes.*;
 
 public class CalculadoraEstatisticaService {
         
