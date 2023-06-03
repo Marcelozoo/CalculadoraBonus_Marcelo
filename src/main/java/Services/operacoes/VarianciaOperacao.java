@@ -1,5 +1,7 @@
 package Model;
 
+import models.interfaces.IOperacao;
+
 public class VarianciaOperacao implements IOperacao {
 
     @Override

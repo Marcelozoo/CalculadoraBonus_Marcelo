@@ -4,12 +4,13 @@ package Services;
    
 
 
+import models.interfaces.IOperacao;
 import Model.*;
 import java.util.ArrayList;
 
 public class CalculadoraEstatisticaService {
         
-    private ArrayList<IOperacao> operacoes;
+    final private ArrayList<IOperacao> operacoes;
         
     public CalculadoraEstatisticaService(){
         operacoes = new ArrayList<>();

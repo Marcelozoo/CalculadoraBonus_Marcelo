@@ -1,6 +1,8 @@
 
 package Model;
 
+import models.interfaces.IOperacao;
+
 
 public class MediaOperacao implements IOperacao {
     

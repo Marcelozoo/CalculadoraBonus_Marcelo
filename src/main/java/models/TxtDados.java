@@ -1,5 +1,6 @@
 package Model;
 
+import models.interfaces.IImportarDados;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

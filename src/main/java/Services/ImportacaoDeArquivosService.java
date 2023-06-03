@@ -1,6 +1,6 @@
 package Services;
 
-import Model.IImportarDados;
+import models.interfaces.IImportarDados;
 import Model.CsvDados;
 import Model.TxtDados;
 import java.io.File;

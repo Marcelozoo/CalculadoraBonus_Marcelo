@@ -1,4 +1,6 @@
-package Model;
+package models.interfaces;
+
+import Model.DadosPeso;
 
 
 public interface IOperacao {

@@ -1,4 +1,4 @@
-package Presenter;
+package presenters;
 
 import Model.DadosPeso;
 import Model.Resultado;

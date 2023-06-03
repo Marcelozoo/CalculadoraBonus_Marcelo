@@ -1,5 +1,6 @@
 package Model;
 
+import models.interfaces.IImportarDados;
 import java.io.File;
 import java.util.Scanner;
 import java.io.FileNotFoundException;

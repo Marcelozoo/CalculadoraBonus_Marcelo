@@ -2,6 +2,7 @@
 package Model;
 
 
+import models.interfaces.IOperacao;
 import java.util.Collections;
 
 
