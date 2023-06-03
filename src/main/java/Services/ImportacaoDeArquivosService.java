@@ -13,7 +13,7 @@ public class ImportacaoDeArquivosService {
 
     public ImportacaoDeArquivosService() {
         
-        importarArquivos = new ArrayList();
+        importarArquivos = new ArrayList<>();
         importarArquivos.add(new CsvDados());
         importarArquivos.add(new TxtDados());
     }
@@ -27,7 +27,7 @@ public class ImportacaoDeArquivosService {
             }
         }
         
-        return new ArrayList();
+        return new ArrayList<>();
                 
     }
 }

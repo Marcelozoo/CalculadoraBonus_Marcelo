@@ -12,7 +12,7 @@ public class TxtDados implements IImportarDados {
     @Override
     public ArrayList<Double> importarDados(File arquivo) {
 
-        ArrayList<Double> dadosArquivo = new ArrayList();
+        ArrayList<Double> dadosArquivo = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(arquivo)) {
             while (scanner.hasNextLine()) {

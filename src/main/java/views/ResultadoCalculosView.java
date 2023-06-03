@@ -1,4 +1,4 @@
-package View;
+package views;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
@@ -92,7 +92,7 @@ public class ResultadoCalculosView extends javax.swing.JFrame {
         return jTable1;
     }
 
-    public JComboBox getjComboBox() {
+    public JComboBox<String> getjComboBox() {
         return jComboBox1;
     }
     

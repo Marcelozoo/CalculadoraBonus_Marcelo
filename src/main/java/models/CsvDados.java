@@ -7,15 +7,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
-
-
-
 public class CsvDados implements IImportarDados {
 
     @Override
     public  ArrayList<Double> importarDados(File arquivo) {
         
-        ArrayList<Double> dadosArquivo = new ArrayList();
+        ArrayList<Double> dadosArquivo = new ArrayList<>();
              
             try(Scanner scanner = new Scanner(arquivo)){
                 while(scanner.hasNextLine()) {

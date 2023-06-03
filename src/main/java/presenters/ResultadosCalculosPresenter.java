@@ -2,7 +2,7 @@ package presenters;
 
 import models.DadosPeso;
 import models.Resultado;
-import View.ResultadoCalculosView;
+import views.ResultadoCalculosView;
 import services.CalculadoraEstatisticaService;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,14 +20,14 @@ public class ResultadosCalculosPresenter {
     private DadosPeso peso;
     final private ArrayList<Double> resultadosTotais;
     final private ArrayList<String> datasTotais;
-    final private JComboBox comboBox;
+    final private JComboBox<String> comboBox;
     final private DefaultTableModel model;
 
     public ResultadosCalculosPresenter() {
 
         this.resultadosCalculos = new ResultadoCalculosView();
-        this.resultadosTotais = new ArrayList();
-        this.datasTotais = new ArrayList();
+        this.resultadosTotais = new ArrayList<>();
+        this.datasTotais = new ArrayList<>();
         this.comboBox = this.resultadosCalculos.getjComboBox();
         this.model = (DefaultTableModel) resultadosCalculos.getjTable1().getModel();
 
