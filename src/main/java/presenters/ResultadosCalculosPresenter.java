@@ -1,122 +1,40 @@
 package presenters;
 
-import models.DadosPeso;
 import models.Resultado;
 import views.ResultadoCalculosView;
-import services.CalculadoraEstatisticaService;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
+import services.ResultadoIgualService;
 
 public class ResultadosCalculosPresenter {
 
     final private ResultadoCalculosView resultadosCalculos;
-    final private CalculadoraEstatisticaService calculadoraService = new CalculadoraEstatisticaService();
-    private ArrayList<Resultado> resultadosNovos;
-    private DadosPeso peso;
-    final private ArrayList<Double> resultadosTotais;
-    final private ArrayList<String> datasTotais;
     final private JComboBox<String> comboBox;
     final private DefaultTableModel model;
+    final private ArrayList<ArrayList<Resultado>> todosResultados;
+    final private ResultadoIgualService resultadosIguaisService;
+    private DecimalFormat formatadorDecimal;
 
     public ResultadosCalculosPresenter() {
 
         this.resultadosCalculos = new ResultadoCalculosView();
-        this.resultadosTotais = new ArrayList<>();
-        this.datasTotais = new ArrayList<>();
+        this.todosResultados = new ArrayList<>();
+        this.resultadosIguaisService = new ResultadoIgualService();
         this.comboBox = this.resultadosCalculos.getjComboBox();
         this.model = (DefaultTableModel) resultadosCalculos.getjTable1().getModel();
+        this.formatadorDecimal = new DecimalFormat("0.00");
 
-        fechar();
-
-    }
-
-    public void realizarCalculos(ArrayList<Double> dados) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy  HH:mm:ss");
-
-
-        this.peso = new DadosPeso(dados);
-        this.calculadoraService.calcular(this.peso);
-
-        resultadosNovos = this.peso.getResultados();
-        LocalDateTime dataFormatada = resultadosNovos.get(0).getData();
-
-        this.comboBox.addItem(dataFormatada.format(formatter));
-        this.datasTotais.add(dataFormatada.format(formatter));
-
-        armazenaResultados(peso);
-        visualizarCalculos(dados);
-        atualizarTabela();
-
-    }
-    public void visualizarCalculos(ArrayList<Double> resultados) {
-        int i;
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy  HH:mm:ss");
-        this.comboBox.setSelectedItem(resultadosNovos.get(0).getData().format(formatter));
-        
-        this.mostraTelaResultadosCalculos();
-        this.model.setRowCount(0);
-
-        for (i = 0; i < this.resultadosNovos.size(); i++) {
-            this.model.addRow(new Object[]{resultadosNovos.get(i).getNome(), resultadosNovos.get(i).getValor()});
-        }
+        configuraView();
 
     }
 
-    private void atualizarTabela() {
-
-        ActionListener listener = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int i;
-
-                String itemSelecionado = (String) comboBox.getSelectedItem();
-                for (i = 0; i < comboBox.getItemCount(); i++) {
-                    if (datasTotais.get(i).equals(itemSelecionado)) {
-                        break;
-                    }
-                }
-                model.setRowCount(0);
-                int count = 0;
-
-                for (int j = i * 7; j < resultadosTotais.size(); j++) {
-
-                    if (count == 7) {
-                        break;
-                    }
-                    model.addRow(new Object[]{resultadosNovos.get(count).getNome(), resultadosTotais.get(j)});
-                    count++;
-                }
-
-            }
-        };
-
-        comboBox.addActionListener(listener);
-    }
-
-    private void armazenaResultados(DadosPeso peso) {
-        ArrayList<Resultado> resultado = peso.getResultados();
-
-        for (int i = 0; i < resultado.size(); i++) {
-            this.resultadosTotais.add(resultado.get(i).getValor());
-        }
-
-    }
-    
-    private void mostraTelaResultadosCalculos() {
-        this.resultadosCalculos.setVisible(true);
-        this.resultadosCalculos.setLocationRelativeTo(this.resultadosCalculos.getParent());
-        this.resultadosCalculos.setLocationRelativeTo(this.resultadosCalculos.getParent());
-    }
-
-    private void fechar() {
+    private void configuraView() {
 
         this.resultadosCalculos.getJButton1().addActionListener(new ActionListener() {
 
@@ -126,6 +44,67 @@ public class ResultadosCalculosPresenter {
 
             }
         });
+
+        comboBox.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                atualizaTabela(todosResultados.get(comboBox.getSelectedIndex()));
+            }
+        });
+
+    }
+    
+    public void atualizaTabela(ArrayList<Resultado> result){
+        limpaTabela();
+        Integer tamanho = result.size();
+        for (int i = 0; i < tamanho; i++) {
+            this.model.addRow(new Object[] {result.get(i).getNome(),formatadorDecimal.format(result.get(i).getValor())});
+        }
+        
+    }
+    public void mostrarCalculos(ArrayList<Resultado> resultados) {
+
+        if ((!resultadosIguaisService.comparaArrayResultados(todosResultados, resultados))
+            || todosResultados.isEmpty()) {
+            adicionarResultado(resultados);
+            adicionaDataComboBox(resultados.get(0));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy  HH:mm:ss");
+            comboBox.setSelectedItem(resultados.get(0).getData().format(formatter));
+
+        }
+        limpaTabela();
+
+        Integer tamanho = this.todosResultados.get(this.todosResultados.size() - 1).size();
+        for (int i = 0; i < tamanho; i++) {
+            this.model.addRow(new Object[] { todosResultados.get(this.todosResultados.size() - 1).get(i).getNome(),
+                    formatadorDecimal.format(todosResultados.get(this.todosResultados.size() - 1).get(i).getValor())});
+
+        }
+        this.mostraTelaResultadosCalculos();
+
+    }
+
+    private void limpaTabela() {
+        this.model.setRowCount(0);
+    }
+
+    private void adicionarResultado(ArrayList<Resultado> resultados) {
+        todosResultados.add(resultados);
+
+    }
+
+    private void adicionaDataComboBox(Resultado result) {
+        LocalDateTime dataFormatada = result.getData();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy  HH:mm:ss");
+        this.comboBox.addItem(dataFormatada.format(formatter));
+    }
+
+    private void mostraTelaResultadosCalculos() {
+        this.resultadosCalculos.setVisible(true);
+        this.resultadosCalculos.setLocationRelativeTo(this.resultadosCalculos.getParent());
+        this.resultadosCalculos.setLocationRelativeTo(this.resultadosCalculos.getParent());
     }
 
 }
+
