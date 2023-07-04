@@ -1,6 +1,7 @@
 package presenters;
 
-import services.ImportacaoDeArquivosService;
+import services.CalculadoraEstatisticaService;
+import services.arquivos.ImportacaoDeArquivosService;
 import views.CalculadoraEstatisticaView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,25 +10,28 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import models.DadosPeso;
 
 public class CalculadoraEstatisticaPresenter {
 
     final private CalculadoraEstatisticaView tela;
     final private ImportacaoDeArquivosService importarArquivoService;
     final private ResultadosCalculosPresenter resultadosCalculos;
+    final private CalculadoraEstatisticaService calculadora;
     private ArrayList<Double> dados;
+    private DadosPeso peso;
 
     public CalculadoraEstatisticaPresenter() {
 
         this.tela = new CalculadoraEstatisticaView();
         this.resultadosCalculos = new ResultadosCalculosPresenter();
         this.importarArquivoService = new ImportacaoDeArquivosService();
+        this.calculadora = new CalculadoraEstatisticaService();
 
-
-        configuraView();
+        configuraBotoesView();
     }
 
-    private void configuraView() {
+    private void configuraBotoesView() {
 
         tela.getjMenuItem2().addActionListener(new ActionListener() {
 
@@ -36,9 +40,9 @@ public class CalculadoraEstatisticaPresenter {
                 try {
                     importaArquivos();
                 } catch (RuntimeException excecao) {
-                    JOptionPane.showMessageDialog(null, excecao);
+                    JOptionPane.showMessageDialog(null, excecao.getMessage());
                 }
-                
+
             }
         });
 
@@ -49,7 +53,7 @@ public class CalculadoraEstatisticaPresenter {
                 try {
                     verificaArquivoImportado();
                 } catch (RuntimeException excecao) {
-                    JOptionPane.showMessageDialog(null, excecao);
+                    JOptionPane.showMessageDialog(null, excecao.getMessage());
                 }
             }
         });
@@ -61,7 +65,7 @@ public class CalculadoraEstatisticaPresenter {
                 try {
                     verificaCalculoRealizado();
                 } catch (RuntimeException excecao) {
-                    JOptionPane.showMessageDialog(null, excecao);
+                    JOptionPane.showMessageDialog(null, excecao.getMessage());
                 }
             }
         });
@@ -72,8 +76,9 @@ public class CalculadoraEstatisticaPresenter {
 
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(null);
-
-        dados = importarArquivoService.importarDados(fileChooser.getSelectedFile(), result, fileChooser);
+        if (result == JFileChooser.APPROVE_OPTION){
+            dados = importarArquivoService.importarDados(fileChooser.getSelectedFile(), result, fileChooser);
+        }
 
         if (!dados.isEmpty()) {
             preencheTabela(dados);
@@ -88,27 +93,39 @@ public class CalculadoraEstatisticaPresenter {
         model.setRowCount(0);
 
         for (int i = 0; i < dados.size(); i++) {
-            model.addRow(new Object[]{dados.get(i)});
+            model.addRow(new Object[] { dados.get(i) });
         }
+        alteraJLabelQtdElementos();
+    }
 
+    private void alteraJLabelQtdElementos() {
         JLabel label = tela.getjLabel1();
         label.setText("Quantidade de dados: " + dados.size());
-
     }
 
     private void verificaArquivoImportado() {
-        if (dados == null) {
+        if (dados == null || dados.isEmpty()) {
             throw new RuntimeException("Nenhum Arquivo foi importado");
         } else {
-            resultadosCalculos.realizarCalculos(dados);
+            mostraResultados();
         }
     }
 
+    private void mostraResultados() {
+
+        peso = new DadosPeso(dados);
+
+        calculadora.calcular(peso);
+
+        resultadosCalculos.mostrarCalculos(peso.getResultados());
+
+    }
+
     private void verificaCalculoRealizado() {
-        if (dados == null) {
+        if (peso == null) {
             throw new RuntimeException("Nenhum calculo foi realizado!");
         } else {
-            resultadosCalculos.visualizarCalculos(dados);
+            resultadosCalculos.mostrarCalculos(peso.getResultados());
         }
     }
 
